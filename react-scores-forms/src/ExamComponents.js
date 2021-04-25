@@ -101,8 +101,8 @@ function ExamForm(props){
                 </select><br/>
                 Score: <input type="text" value={score} onChange={(event)=>{setScore(event.target.value)}}/><br/>
                 Date: <input type="date" value={date} onChange={event => setDate(event.target.value)}/><br/>
-                <button onClick={handleAdd}>Add</button>
-                {errorMessage}
+                <button onClick={handleAdd}>Add</button><br/>
+                <span style={{color: 'red'}}>{errorMessage}</span>
             </form>
             ) ;
 }
