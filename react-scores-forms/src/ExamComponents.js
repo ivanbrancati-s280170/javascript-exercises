@@ -70,12 +70,26 @@ function ExamForm(props){
     const [course, setCourse] = useState('') ; // props.courses[0].coursecode 
     const [score, setScore] = useState('') ;
     const [date, setDate] = useState('') ;
+    const [errorMessage, setErrorMessage] = useState() ;
 
     const handleAdd = (event) => {
         event.preventDefault() ;
 
-        const exam = { coursecode: course, score: score, date: dayjs(date) } ;
-        props.addExam(exam) ;
+        //VALIDATION
+        let valid = true ;
+        if (course==='' || score==='' || date ==='')
+            valid = false ;
+        const scorenumber =  +score ;
+        if(scorenumber <18 || scorenumber>30) 
+            valid = false ;
+
+        if(valid){
+            const exam = { coursecode: course, score: score, date: dayjs(date) } ;
+            props.addExam(exam) ;
+            setErrorMessage('') ;
+        } else {
+            setErrorMessage('Error in the form...') ;
+        }
     }
 
     return (
@@ -88,6 +102,7 @@ function ExamForm(props){
                 Score: <input type="text" value={score} onChange={(event)=>{setScore(event.target.value)}}/><br/>
                 Date: <input type="date" value={date} onChange={event => setDate(event.target.value)}/><br/>
                 <button onClick={handleAdd}>Add</button>
+                {errorMessage}
             </form>
             ) ;
 }
