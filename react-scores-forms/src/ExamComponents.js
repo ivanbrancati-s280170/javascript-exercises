@@ -13,6 +13,10 @@ function Title(props){
 function ExamTable(props){
 
     const [exams, setExams] = useState(props.exams) ;
+    
+    //examCodes è la lista degli esami già superati
+    //(utile per il filtro del form)
+    const examCodes = exams.map( exam=> exam.coursecode ) ;
 
     //questa funzione deve essere definita dove definisco lo state
     //e poi la propago come prop dove mi serve(in questo caso ExamControls)
@@ -43,7 +47,7 @@ function ExamTable(props){
                     deleteExam={deleteExam}/>)} 
                     </tbody>
                 </Table>
-                <ExamForm courses={props.courses} addExam={addExam}/>
+                <ExamForm courses={props.courses.filter(course => !examCodes.includes(course.coursecode))} addExam={addExam}/>
             </>)
 } ;
 
@@ -84,9 +88,14 @@ function ExamForm(props){
             valid = false ;
 
         if(valid){
+            setErrorMessage('') ;
             const exam = { coursecode: course, score: score, date: dayjs(date) } ;
             props.addExam(exam) ;
-            setErrorMessage('') ;
+            //resettiamo i valori di default
+            setCourse('') ;
+            setScore('') ;
+            setDate('') ; 
+            
         } else {
             setErrorMessage('Error in the form...') ;
         }
