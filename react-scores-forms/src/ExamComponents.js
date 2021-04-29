@@ -1,7 +1,9 @@
 import { Col, Table } from 'react-bootstrap' ;
+import { Link, Redirect, Route, Switch } from 'react-router-dom';
 import { iconDelete, iconEdit } from './icons' ;
 import { useState } from 'react' ;
 import dayjs from 'dayjs' ;
+
 
 
 function Title(props){
@@ -31,7 +33,8 @@ function ExamTable(props){
         setExams( oldExams => [...oldExams, newExam]) ;
     } ;
 
-    return (<>
+    return (<Switch>
+                <Route path="/" exact>
                 <Table striped bordered>
                     <thead>
                     <tr>
@@ -47,8 +50,12 @@ function ExamTable(props){
                     deleteExam={deleteExam}/>)} 
                     </tbody>
                 </Table>
+                </Route>
+                <Route path="/add">
                 <ExamForm courses={props.courses.filter(course => !examCodes.includes(course.coursecode))} addExam={addExam}/>
-            </>)
+                </Route>
+                <Route path='/update'></Route>
+            </Switch>)
 } ;
 
 function ExamRow(props){
@@ -115,4 +122,4 @@ function ExamForm(props){
             </form>
             ) ;
 }
-    export { Title, ExamTable, ExamRow } ;
+    export { Title, ExamTable } ;
