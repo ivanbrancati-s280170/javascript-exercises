@@ -3,6 +3,7 @@ import './App.css';
 import { Container, Row } from 'react-bootstrap';
 import { ExamTable, Title } from './ExamComponents';
 import dayjs from 'dayjs' ;
+import { BrowserRouter as Router } from 'react-router-dom' 
 
 const fakeExams = [
   {coursecode: '01TYMOV', score: 28, date: dayjs('2021-03-01')},
@@ -25,6 +26,7 @@ const fakeCourses = [
 
 function App() {
   return (
+    <Router>
     <Container className="App">
       <Row>
         <Title/>
@@ -33,6 +35,7 @@ function App() {
         <ExamTable courses={fakeCourses} exams={fakeExams}/>
       </Row>
     </Container>
+    </Router>
   );
 }
 

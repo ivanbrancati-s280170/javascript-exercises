@@ -2,6 +2,7 @@ import { Col, Table } from 'react-bootstrap' ;
 import { iconDelete, iconEdit } from './icons' ;
 import { useState } from 'react' ;
 import dayjs from 'dayjs' ;
+import {Switch, Route, Link, Redirect} from 'react-router-dom'
 
 
 function Title(props){
@@ -31,7 +32,8 @@ function ExamTable(props){
         setExams( oldExams => [...oldExams, newExam]) ;
     } ;
 
-    return (<>
+    return (<Switch>
+            <Route path='/' exact>
                 <Table striped bordered>
                     <thead>
                     <tr>
@@ -47,8 +49,13 @@ function ExamTable(props){
                     deleteExam={deleteExam}/>)} 
                     </tbody>
                 </Table>
+                <Link to='/add'><button>Add</button></Link>
+                </Route>
+                <Route path='/add'>
                 <ExamForm courses={props.courses.filter(course => !examCodes.includes(course.coursecode))} addExam={addExam}/>
-            </>)
+                </Route>
+                <Route path='/update'></Route>
+            </Switch>)
 } ;
 
 function ExamRow(props){
@@ -76,6 +83,9 @@ function ExamForm(props){
     const [date, setDate] = useState('') ;
     const [errorMessage, setErrorMessage] = useState() ;
 
+    //stato usato come flag per reindirizzare alla home
+    const [submitted, setSubmitted] = useState(false) ;
+
     const handleAdd = (event) => {
         event.preventDefault() ;
 
@@ -91,6 +101,9 @@ function ExamForm(props){
             setErrorMessage('') ;
             const exam = { coursecode: course, score: score, date: dayjs(date) } ;
             props.addExam(exam) ;
+            //(reindirizzamento)
+            //torniamo alla home page
+            setSubmitted(true) ;
             //resettiamo i valori di default
             setCourse('') ;
             setScore('') ;
@@ -102,6 +115,9 @@ function ExamForm(props){
     }
 
     return (
+            <>
+            {submitted && <Redirect to='/'></Redirect>
+            /*(reindirizzamento alla home page)*/}
             <form>
                 Exam: 
                 <select value={course} onChange={event => setCourse(event.target.value)}>
@@ -111,8 +127,10 @@ function ExamForm(props){
                 Score: <input type="text" value={score} onChange={(event)=>{setScore(event.target.value)}}/><br/>
                 Date: <input type="date" value={date} onChange={event => setDate(event.target.value)}/><br/>
                 <button onClick={handleAdd}>Add</button><br/>
+                <Link to='/'><button>Cancel</button></Link><br/>
                 <span style={{color: 'red'}}>{errorMessage}</span>
             </form>
+            </>
             ) ;
 }
     export { Title, ExamTable, ExamRow } ;
