@@ -33,7 +33,7 @@ app.get('/api/courses/:code', async (req,res) => {
 
 app.post('/api/exams', async (req, res) => {
     let code = req.body.code ;
-    let score = req.body.scre ;
+    let score = req.body.score ;
     let date = req.body.date ;
 
     try{
