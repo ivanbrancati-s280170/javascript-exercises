@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Greet from './Greet' ;
+import Count from './Count' ;
+import QuickGate from './QuickGate' ;
 
 function App() {
+  const [num, setNum] = useState(3) ;
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Greet name = 'World!'></Greet>
+
+      <Count num={num}/>
+      <button onClick={()=>setNum(n => n+1)}>+</button>
+      <hr/>
+      <QuickGate/>
     </div>
   );
 }
