@@ -16,7 +16,10 @@ app.use(morgan("dev"));
 app.get('/api/flip', (req,res) => {
     const text = req.query.text ;
     const flipped = flip(text) ;
-    res.json( {text: flipped }) ;
+    //esempio di server 'lento'
+    setTimeout(() => {res.json( {text: flipped })}, 1500) ;
+    //versione normale
+    //res.json( {text: flipped }) ;
 })
 
 app.listen(PORT, ()=>{console.log(`Server started at http://localhost:${PORT}/`)} )
